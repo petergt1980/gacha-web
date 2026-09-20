@@ -1,2 +1,0 @@
-import {NextResponse} from 'next/server'; import bcrypt from 'bcryptjs'; import {db} from '../../../../lib/db'; import {sign} from '../../../../lib/auth';
-export async function POST(req){const {email,password}=await req.json();const u=await db.user.findUnique({where:{email}});if(!u||!(await bcrypt.compare(password,u.password)))return NextResponse.json({error:'Invalid'},{status:401});const res=NextResponse.json({ok:true});res.cookies.set('tree_token',await sign(u.id),{httpOnly:true,sameSite:'lax',secure:process.env.NODE_ENV==='production',maxAge:604800,path:'/'});return res}

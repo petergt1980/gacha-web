@@ -1,6 +1,0 @@
-generator client { provider = "prisma-client-js" }
-datasource db { provider = "sqlite" url = env("DATABASE_URL") }
-model User { id String @id @default(cuid()); email String @unique; name String; password String; role String @default("USER"); coins Int @default(100); lastDaily DateTime?; inventory Inventory[]; pulls Pull[]; createdAt DateTime @default(now()) }
-model Reward { id String @id @default(cuid()); name String; itemId Int; image String; rarity String; weight Int @default(10); enabled Boolean @default(true); createdAt DateTime @default(now()) }
-model Inventory { id String @id @default(cuid()); userId String; rewardId String; amount Int @default(1); user User @relation(fields:[userId],references:[id]); reward Reward @relation(fields:[rewardId],references:[id]); @@unique([userId,rewardId]) }
-model Pull { id String @id @default(cuid()); userId String; rewardId String; createdAt DateTime @default(now()); user User @relation(fields:[userId],references:[id]); reward Reward @relation(fields:[rewardId],references:[id]) }
